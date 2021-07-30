@@ -11,11 +11,9 @@ const userService = require('./user-service.js');
 
 const app = express();
 
-// JSON Web Token Setup
 let ExtractJwt = passportJWT.ExtractJwt;
 let JwtStrategy = passportJWT.Strategy;
 
-// Configure its options
 let jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
 
@@ -64,9 +62,10 @@ app.post('/api/user/login', (req, res) => {
         userName: user.userName,
       };
       const token = jwt.sign(payload, jwtOptions.secretOrKey);
-      res.status(200).json({ message: msg, token: token });
+      res.status(200).json({ token: token });
     })
     .catch((err) => {
+      console.log(err);
       res.status(422).json({ message: err });
     });
 });
